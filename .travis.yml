@@ -1,0 +1,30 @@
+sudo: false
+language: python
+python:
+- '2.7'
+- '3.3'
+cache: pip
+env:
+  matrix:
+  - DJANGO_VERSION=1.8.8
+  global:
+    secure: SoMKYyg7YWWF1k3U1p81Y309LlqDTIA5qhi3h8szhEPzBTSnVfOPuXPtmXfsYmKuffV3Ahz+5pnIMOxXEyQKyIZQR1035Da//ouVWckicCI76Xp/LdgV7gXi0d8MQcnTBL1mekbKfinESky2h2jbgorbHThI2K2So5p0AgODvI0hPsQoixHaieooT2oQe2DFMG9KQI99GDfsWFqQasGal5NZCWf2sXVNNg+QkQIB30q3vCXMj04NQH4xxAxr2NWkO3wm2Vq3HRnBN02tl2iGwA8uhR/xqwbJyTIx+K3TZTREh4H+3EqTiFn6qtcqmMniGbqq21QZmckJX+AL1rRZbLFRRwKJz8hKdvoAkLZYc9uziw4JEjcxp8aMtvBAYsovagX++1Rv4/Rdq52/EApS8BWHAN5Tv8KADq5h4E6xeWtPk3+gh6Ps68qzWWbLUiShfo/dy8TlwGwAvCKCnOCLKSoJQew1r0U4NiPFohNfO+S3sSbqQ8gg4TWP76hMhlhzoIrMgVufvh0ovED1/BQkAlv7vx0eZ26aLhqYx22uurcv8B39yUtV0XuR45ZBuPQj7r1FDkGRsepahMkyqIJxJKjwhPdLixmgcNn3QdHLBqP/o5FuvahSAqXLr9Mj4ie2XFhoXh9jDG7n1GH3BcEgsRknTB8ZBUo/RERYLD+iguI=
+install:
+- pip install -q Django==$DJANGO_VERSION
+- pip install coveralls
+- pip install mock
+- pip install south
+- pip install nose
+- pip install testfixtures
+deploy:
+  provider: pypi
+  user: suquant
+  password: $PYPI_PASSWORD
+  on:
+    tags: true
+script:
+- python setup.py build
+- PYTHONHASHSEED=0 python setup.py nosetests --verbosity 2 --with-coverage --cover-tests
+  --cover-erase
+after_success:
+- coveralls

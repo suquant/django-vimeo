@@ -1,0 +1,11 @@
+{% load django_vimeo_tags i18n %}
+
+{% vimeo instance.vimeo_uri width=600 as video %}
+    <video width="600" loop="loop" autoplay="autoplay" poster="{{ video.optimal_picture.link }}">
+        <source src="{{ video.optimal_file.link_secure }}" type='{{ video.optimal_file.type }}'>
+        {% trans 'tag "video" not supported by your browser' %}
+        <a href="{{ video.optimal_download.link }}">{% trans 'download video' %}</a>.
+    </video>
+{% endvimeo %}
+
+{% vimeo instance.vimeo_uri width=600 %}
