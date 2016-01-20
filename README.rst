@@ -7,70 +7,52 @@ Django module for easy embedding Vimeo videos into app.
     :target: https://travis-ci.org/suquant/django-vimeo
 .. image:: https://coveralls.io/repos/suquant/django-vimeo/badge.svg?branch=master&service=github
     :target: https://coveralls.io/github/suquant/django-vimeo?branch=master
-.. image:: https://pypip.in/v/django-vimeo/badge.png
-    :target: https://crate.io/packages/django-embed-video/
-.. image:: https://pypip.in/d/django-embed-video/badge.png
-    :target: https://crate.io/packages/django-embed-video/
-
-Documentation
-*************
-
-Documentation is here: http://django-embed-video.rtfd.org/
 
 
 Quick start
 ************
 
-#. Install ``django-embed-video``:
+#. Install ``django-vimeo``:
 
    ::
 
-      pip install django-embed-video
+      pip install django-vimeo
 
 
    or from sources
 
    ::
 
-      pip install git+https://github.com/yetty/django-embed-video.git
+      pip install git+https://github.com/suquant/django-vimeo.git
 
 
-#. Add ``embed_video`` to ``INSTALLED_APPS`` in your Django settings.
-
-#. If you want to detect HTTP/S in template tags, you have to set ``request``
-   context processor in ``settings.TEMPLATE_CONTEXT_PROCESSORS``:
-
-   ::
-
-       TEMPLATE_CONTEXT_PROCESSORS = (
-           ...
-           'django.core.context_processors.request',
-       )
+#. Add ``django_vimeo`` to ``INSTALLED_APPS`` in your Django settings.
 
 #. Usage of template tags:
 
    ::
 
-      {% load embed_video_tags %}
+      {% load django_vimeo_tags %}
 
       The video tag:
-      {% video item.video as my_video %}
-        URL: {{ my_video.url }}
-        Thumbnail: {{ my_video.thumbnail }}
-        Backend: {{ my_video.backend }}
-
-        {% video my_video "large" %}
-      {% endvideo %}
+      {% vimeo instance.video width=600 as video %}
+         <video width="600" loop="loop" autoplay="autoplay" poster="{{ video.optimal_picture.link }}">
+             <source src="{{ video.optimal_file.link_secure }}" type='{{ video.optimal_file.type }}'>
+             {% trans 'tag "video" not supported by your browser' %}
+             <a href="{{ video.optimal_download.link }}">{% trans 'download video' %}</a>.
+         </video>
+      {% endvimeo %}
 
       Or embed shortcut:
-      {% video my_video '800x600' %}
+      {% vimeo instance.video width=600 %}
 
 #. Usage of model fields
 
    ::
 
       from django.db import models
-      from embed_video.fields import EmbedVideoField
+      from django_vimeo import fields
 
-      class Item(models.Model):
-          video = EmbedVideoField()  # same like models.URLField()
+
+      class ExampleModel(models.Model):
+         video = fields.VimeoField(null=True, blank=True)
