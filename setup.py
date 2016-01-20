@@ -14,7 +14,6 @@ CHANGES = read('CHANGES.rst')
 setup(
     name='django-vimeo',
     packages=find_packages(),
-    package_data={'django_vimeo': ['templates/django_vimeo/*.html']},
     version=django_vimeo.get_version(),
     author='Georgy Kutsurua',
     author_email='g.kutsurua@gmail.com',
