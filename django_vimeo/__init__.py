@@ -2,7 +2,7 @@
 Django app for easy embeding Vimeo videos.
 """
 
-VERSION = (0, 1, 6, 'dev')
+VERSION = (0, 1, 7, 'dev')
 
 
 def get_release():

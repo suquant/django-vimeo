@@ -16,7 +16,7 @@ def cache_it(expires=None, key_func=None):
         cache_backend = getattr(settings, 'VIMEO_CACHE_BACKEND', None)
         cache = caches[cache_backend]
     except InvalidCacheBackendError as e:
-        logger.warning('Vimeo cache "VIMEO_CACHE_BACKEND" disabled, reason: {}'.format(e.message))
+        logger.warning('Vimeo cache "VIMEO_CACHE_BACKEND" disabled, reason: {}'.format(e))
     def wrap(f):
         @wraps(f)
         def wrapper(*args, **kwds):
