@@ -10,8 +10,9 @@ from django.utils.deconstruct import deconstructible
 from django.utils.functional import cached_property
 from vimeo import VimeoClient
 
-import cache
-import exceptions
+from .cache import cache_it
+from .exceptions import SpaceNotEnoughtException
+from .exceptions import UnknownIdException
 
 
 @deconstructible
@@ -45,23 +46,23 @@ class VimeoFileStorage(Storage):
             usedMb = res.get('upload_quota', {}).get('space', {}).get('used', 0) / 1048576
             maxMb = res.get('upload_quota', {}).get('space', {})('max', 0) / 1048576
             sizeMb = size / 1048576
-            raise exceptions.SpaceNotEnoughtException(
+            raise SpaceNotEnoughtException(
                 'Space on vimeo not enought for {} MB (free: {} MB, used: {} MB, max: {} MB)'
                     .format(sizeMb, freeMb, usedMb, maxMb)
             )
 
     def _raise_for_status(self, res):
         if res.status_code == 404:
-            raise exceptions.UnknownIdException(res.reason)
+            raise UnknownIdException(res.reason)
         res.raise_for_status()
 
-    @cache.cache_it()
+    @cache_it()
     def get_meta(self, path):
         res = self.client.get(path)
         self._raise_for_status(res)
         return res.json()
 
-    @cache.cache_it()
+    @cache_it()
     def get_oembed(self, path, **options):
         defaults = {'url': self.video_url_pattern.format(path.split('/')[-1])}
         defaults.update(options)

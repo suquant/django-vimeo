@@ -5,7 +5,7 @@ from django import forms
 from django.db import models
 from django.db.models.fields import files
 
-import storage
+from . import storage
 
 
 class VimeoFieldFile(files.FieldFile):
