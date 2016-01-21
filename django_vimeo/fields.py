@@ -5,7 +5,7 @@ from django import forms
 from django.db import models
 from django.db.models.fields import files
 
-from . import storage
+from .storage import VimeoFileStorage
 
 
 class VimeoFieldFile(files.FieldFile):
@@ -62,7 +62,7 @@ class VimeoField(models.FileField):
     attr_class = VimeoFieldFile
 
     def __init__(self, *args, **kwargs):
-        defaults = {'storage': storage.VimeoFileStorage()}
+        defaults = {'storage': VimeoFileStorage()}
         defaults.update(kwargs)
         super(VimeoField, self).__init__(*args, **defaults)
 
