@@ -6,7 +6,7 @@ from django.template import Library, Node
 from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
 
-from .. import exceptions
+from ..exceptions import VideoDoesntExistException
 
 register = Library()
 
@@ -98,7 +98,7 @@ class VimeoNode(Node):
             return self.render_block(context, video_meta)
         except requests.Timeout:
             logger.exception('Timeout reached during rendering embed video (`{0}`)'.format(video))
-        except exceptions.VideoDoesntExistException:
+        except VideoDoesntExistException:
             logger.exception('Attempt to render not existing video (`{0}`)'.format(video))
 
         return ''

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-import models
+from . import models
 
 
 def home(request):

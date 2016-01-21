@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import logging
 import xxhash
 
@@ -26,7 +27,7 @@ def cache_it(expires=None, key_func=None):
                 key = 'django_vimeo_cache:{}'.format(key_func(*args, **kwds))
             else:
                 key = 'django_vimeo_cache:' + f.__name__ + ':' +\
-                      unicode(list(args) + list(sorted(kwds.items()))).encode('utf-8')
+                      str(list(args) + list(sorted(kwds.items())))
             key = xxhash.xxh64(key).hexdigest()
             value = cache.get(key)
             if value is None:
