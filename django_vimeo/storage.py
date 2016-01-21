@@ -6,12 +6,15 @@ from tempfile import NamedTemporaryFile
 import requests
 from django.conf import settings
 from django.core.files.storage import Storage
+from django.utils.deconstruct import deconstructible
+from django.utils.functional import cached_property
 from vimeo import VimeoClient
 
 import cache
 import exceptions
 
 
+@deconstructible
 class VimeoFileStorage(Storage):
     def __init__(self, client_id=None, client_secret=None, access_token=None):
         if not client_id:
@@ -20,11 +23,17 @@ class VimeoFileStorage(Storage):
             client_secret = getattr(settings, 'VIMEO_CLIENT_SECRET', None)
         if not access_token:
             access_token = getattr(settings, 'VIMEO_ACCESS_TOKEN', None)
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.access_token = access_token
         self.oembed_url = getattr(settings, 'VIMEO_OEMBED_URL',
                                   'https://vimeo.com/api/oembed.json')
         self.video_url_pattern = getattr(settings, 'VIMEO_VIDEO_URL_PATTERN',
                                          'https://vimeo.com/{}')
-        self.client = VimeoClient(token=access_token, key=client_id, secret=client_secret)
+
+    @cached_property
+    def client(self):
+        return VimeoClient(token=self.access_token, key=self.client_id, secret=self.client_secret)
 
     def _upload_quota_check(self, size):
         res = self.client.get('/me')

@@ -2,11 +2,11 @@ import logging
 import re
 
 import requests
-from .. import exceptions
-
-from django.template import Library, Node, TemplateSyntaxError
+from django.template import Library, Node
 from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
+
+from .. import exceptions
 
 register = Library()
 
