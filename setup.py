@@ -1,6 +1,6 @@
-from setuptools import setup, find_packages
-
 import os
+
+from setuptools import setup, find_packages
 
 django_vimeo = __import__('django_vimeo')
 
