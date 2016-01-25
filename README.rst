@@ -30,7 +30,9 @@ Quick start
 
 #. Add credentials into settings.
 
+
     Create new application in https://developer.vimeo.com/apps
+
 
     ::
 
@@ -40,6 +42,7 @@ Quick start
 
 
     For activate use cache
+
 
     ::
 
