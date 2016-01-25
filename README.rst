@@ -30,27 +30,23 @@ Quick start
 
 #. Add credentials into settings.
 
+   Create new application in https://developer.vimeo.com/apps
 
-    Create new application in https://developer.vimeo.com/apps
+   ::
 
+      VIMEO_CLIENT_ID = 'client id'
+      VIMEO_CLIENT_SECRET = 'client secret'
+      VIMEO_ACCESS_TOKEN = 'access token'
 
-    ::
+   For activate use cache
 
-        VIMEO_CLIENT_ID = 'client id'
-        VIMEO_CLIENT_SECRET = 'client secret'
-        VIMEO_ACCESS_TOKEN = 'access token'
+   ::
 
-
-    For activate use cache
-
-
-    ::
-
-        VIMEO_CACHE_BACKEND = 'default' # Default: None
-        VIMEO_CACHE_EXPIRES = 300 # Default: 300 seconds
+      VIMEO_CACHE_BACKEND = 'default' # Default: None
+      VIMEO_CACHE_EXPIRES = 300 # Default: 300 seconds
 
 
-        "If 'VIMEO_CACHE_BACKEND' not setted or 'None', cache will be not used"
+      "If 'VIMEO_CACHE_BACKEND' not setted or 'None', cache will be not used"
 
 #. Usage of template tags:
 
